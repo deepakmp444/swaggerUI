@@ -1,0 +1,221 @@
+openapi: 3.0.0
+info:
+  title: RGBSI Demo App
+  description: description of RGBSI Demo App
+  version: 0.0.1
+  contact:
+    email: deepakmp444@gmail.com
+    url: https://deepakkumar.work
+
+# servers:
+#   - url: http://localhost:5001/api
+#     description: for localhost
+#   - url: http://localhost:5001/api
+#     description: for production
+
+servers:
+  - url: "http://localhost:5001/api"
+  # - url: "{protocol}://localhost:5001/api/{version}"
+  # - url: "{protocol}://localhost:5001"
+    description: for local host
+    # variables:
+    #   version:
+    #     enum:
+    #       - v1
+    #       - v2
+    #     default: v1
+    #   protocol:
+    #     enum:
+    #       - http
+    #       - https
+    #     default: http
+
+components:
+  schemas:
+    UserResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        status:
+          type: boolean
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        mobile:
+          type: integer
+        email:
+          type: string
+        password:
+          type: string
+    RegisterResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        status:
+          type: boolean
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+    BearerAuth:
+      type: http
+      scheme: bearer
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+    cookieAuth: # arbitrary name for the security scheme; will be used in the "security" key later
+      type: apiKey
+      in: cookie
+      name: JSESSIONID
+
+paths:
+  /user:
+    get:
+      tags:
+        - Users
+      summary: get all user
+      x-ms-azure-disableTryItOut: true  #
+      responses:
+        "200":
+          description: return an object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+    post:
+      tags:
+        - Users
+      summary: Create user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "200":
+          description: User created successfully
+        "500":
+          description: internal server error successfully
+  /user/{id}:
+    get:
+      tags:
+        - Users
+      summary: Get user detail by id
+      parameters:
+        - name: id
+          default: 6458b40fe3e84e42829f2e42
+          in: path
+      responses:
+        "200":
+          description: return an object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+    delete:
+      tags:
+        - Users
+      summary: Delete a user
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the user to delete
+      responses:
+        "200":
+          description: User deleted successfully
+        "404":
+          description: User not found
+    put:
+      tags:
+        - Users
+      summary: Update a user
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the user to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "200":
+          description: User updated successfully
+        "404":
+          description: User not found
+        "500":
+          description: Internal server erros
+
+  /register:
+    get:
+      tags:
+        - Register
+      summary: get all user
+      responses:
+        "200":
+          description: return an object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegisterResponse"
+    post:
+      tags:
+        - Register
+      summary: get all user
+      responses:
+        "200":
+          description: return an object
+    put:
+      tags:
+        - Register
+      summary: get all user
+      responses:
+        "200":
+          description: return an object
+    delete:
+      tags:
+        - Register
+      summary: get all user
+      responses:
+        "200":
+          description: return an object
+
+  /admin/api/v1:
+    get:
+      tags:
+        - Query String
+      summary: Get users
+      parameters:
+        - in: query
+          name: q1
+          schema:
+            type: string
+          description: Query parameter q1
+        - in: query
+          name: q2
+          schema:
+            type: string
+          description: Query parameter q2
+      responses:
+        '200':
+          description: Success response
+# components:

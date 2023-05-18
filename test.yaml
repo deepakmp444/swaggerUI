@@ -1,0 +1,48 @@
+course:
+  course_name: "Djange"
+  course_price: 1233
+  course_rate: 4.5
+  is_public: false
+  data: 2012-04-30
+  tags:
+    - d
+    - b
+    - c
+    - e
+  tags_ar: ["d", "b", "c"]
+  arr_obj:
+    - name: "De"
+      age: 12
+
+    - name: "SM"
+      age: 13
+
+    - name: "NM"
+      age: 15
+
+  arr_obj2:
+    - { name: "d", age: 12 }
+    - { name: "c", age: 12 }
+    - { name: "r", age: 12 }
+    - { name: "t", age: 12 }
+
+  var_test: &var_test 1212
+
+  new_var_test: *var_test
+
+  avd: >
+    here is short description
+    so i can do this
+
+  avd_long: |
+    here is long description
+    so i can do this, for practice
+    I am just checking
+    long string
+
+  copy_key: &copy_key
+    name: "Deepak"
+
+  new_copy_key:
+    my_new_name: "SM"
+    <<: *copy_key
